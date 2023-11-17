@@ -35,6 +35,9 @@ public class ArrowController : MonoBehaviour
         {
             // Arrow has missed the board, destroy it
             Destroy(gameObject);
+            // Call UseArrow here to decrease arrow if it misses
+            gameManager.UseArrow();
+
         }
     }
 
@@ -49,10 +52,12 @@ public class ArrowController : MonoBehaviour
         if (collision.gameObject.CompareTag("Target"))
         {
             HandleCollision(1);
+            gameManager.UseArrow();
         }
         if (collision.gameObject.CompareTag("Score3"))
         {
             HandleCollision(3);
+            gameManager.UseArrow();
 
         }
         if (collision.gameObject.CompareTag("Score5"))
