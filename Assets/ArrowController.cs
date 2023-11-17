@@ -9,15 +9,17 @@ public class ArrowController : MonoBehaviour
     public float DestroyAt = 10f;
     private Transform HitBoard;
     private bool isAttached = false;
-
     // public AudioSource arrowHit;
+
+    public CapsuleCollider2D capsuleCollider2d;
 
     void Start()
     {
+        capsuleCollider2d = GetComponent<CapsuleCollider2D>();
         gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
         HitBoard = GameObject.FindGameObjectWithTag("Target").transform;
         ShootArrow();
-        
+
     }
 
     void Update()
@@ -28,7 +30,7 @@ public class ArrowController : MonoBehaviour
             // Move the arrow with the board
             transform.position = new Vector3(arrowRigidbody.position.x, arrowRigidbody.position.y, 0f);
         }
-        
+
         else if (transform.position.x > DestroyAt)
         {
             // Arrow has missed the board, destroy it
@@ -46,11 +48,17 @@ public class ArrowController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Target"))
         {
-            // Arrow has collided with the board, attach it and destroy after some time
-            AttachToBoard();
-            // arrowHit.Play();
-            gameManager.UpdateScore(1);
-            Destroy(gameObject, destroyAfterTime);
+            HandleCollision(1);
+        }
+        if (collision.gameObject.CompareTag("Score3"))
+        {
+            HandleCollision(3);
+
+        }
+        if (collision.gameObject.CompareTag("Score5"))
+        {
+            HandleCollision(5);
+
         }
     }
 
@@ -60,5 +68,17 @@ public class ArrowController : MonoBehaviour
         arrowRigidbody.velocity = Vector2.zero;
         transform.SetParent(HitBoard);
         isAttached = true;
+    }
+
+    void HandleCollision(int score)
+    {
+        // Arrow has collided with the board, attach it and destroy after some time
+        Destroy(capsuleCollider2d);
+        AttachToBoard();
+        // arrowHit.Play();
+        gameManager.UpdateScore(score);
+        Debug.LogError("Added Score : " + score);
+        Destroy(gameObject, destroyAfterTime);
+
     }
 }

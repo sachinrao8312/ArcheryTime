@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: e3d6257084762b74d8d41576048c0cc1
+guid: bbfd98a9521b8dc44a97c5119b1a99d5
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -121,7 +121,49 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Set6_0
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 81
+        width: 120
+        height: 351
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cfc7032882a0a4f49adac2aae0e3d96a
+      internalID: -111346537
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Set6_1
+      rect:
+        serializedVersion: 2
+        x: 233
+        y: 258
+        width: 206
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6b72156f49d9c5f47a6d4191b48121d1
+      internalID: 959706250
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -132,7 +174,9 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Set6_0: -111346537
+      Set6_1: 959706250
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

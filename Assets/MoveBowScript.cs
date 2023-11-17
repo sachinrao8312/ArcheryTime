@@ -9,8 +9,8 @@ public class MoveBowScript : MonoBehaviour
     public float bowUpperBound = 4.6f;
     public float bowLowerBound = -4.6f;
     public GameManager gameManager;
-    public float movebowScore ;
-
+    public float movebowScore;
+    // public SpriteRenderer myBowSprite;
     void Start()
     {
         // Move the bow downwards initially
@@ -55,4 +55,14 @@ public class MoveBowScript : MonoBehaviour
         // Move the bow in the Y direction
         bow.velocity = new Vector2(0, speed);
     }
+
+    //Change the BOwSprite
+//     void ChangeSprite()
+// {
+//     // Load a new sprite from Resources (assuming the sprite is in the Resources folder)
+//     // Sprite newSprite = Resources.Load<Sprite>("/");
+
+//     // Assign the new sprite to the SpriteRenderer
+//     mySpriteRenderer.sprite = newSprite;
+// }
 }

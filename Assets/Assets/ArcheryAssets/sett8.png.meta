@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 8a4c8c46bb77bab42840ff57cbab419f
+guid: c9c99f6b22001c2458774bbf77dc68d3
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -43,7 +43,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -121,7 +121,49 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: sett8_0
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 207
+        width: 253
+        height: 706
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b5f84e5740d61514eb5dbbabbe6a3032
+      internalID: -1549146234
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sett8_9
+      rect:
+        serializedVersion: 2
+        x: 246
+        y: 130
+        width: 683
+        height: 86
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1af73a26979155a46ab386cb5438c243
+      internalID: 994652863
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -132,7 +174,20 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      sett8_0: -1549146234
+      sett8_1: -487485223
+      sett8_10: 1999159707
+      sett8_11: -95271572
+      sett8_12: 273686716
+      sett8_2: -1681976759
+      sett8_3: 929339484
+      sett8_4: 114243982
+      sett8_5: -1152444153
+      sett8_6: 85952274
+      sett8_7: -635904568
+      sett8_8: 1120822630
+      sett8_9: 994652863
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
