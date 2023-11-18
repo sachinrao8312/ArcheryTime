@@ -82,7 +82,6 @@ public class ArrowController : MonoBehaviour
         AttachToBoard();
         // arrowHit.Play();
         gameManager.UpdateScore(score);
-        Debug.LogError("Added Score : " + score);
         Destroy(gameObject, destroyAfterTime);
     }
 }

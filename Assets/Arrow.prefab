@@ -260,7 +260,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameManager: {fileID: 0}
   arrowSpeed: 21
-  destroyAfterTime: 3.5
+  destroyAfterTime: 3.87
   arrowRigidbody: {fileID: 8757975771604676528}
   DestroyAt: 22
   capsuleCollider2d: {fileID: 7487259297696489342}

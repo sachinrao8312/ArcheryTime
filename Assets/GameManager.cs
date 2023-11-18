@@ -83,20 +83,19 @@ public class GameManager : MonoBehaviour
 
     public void UseArrow()
     {
-        arrowCount--;
+        --arrowCount;
         CheckArrowCount(arrowCount);
         UpdateUI();
     }
 
     public void AddNewArrow()
     {
-        arrowCount += 2;
+        ++arrowCount;
         UpdateUI();
     }
 
     public void RestartNewGame()
     {
-        Debug.LogError("load new scene");
         SceneManager.LoadScene("MainScene");
     }
 
@@ -104,7 +103,6 @@ public class GameManager : MonoBehaviour
     {
         if (arrowCount <= 0)
         {
-            Debug.Log("Game Over");
             arrowCount = 0; // Ensure arrow count doesn't go negative
             gameOverScreen.SetActive(true); 
             HitBoard.SetActive(false); 
