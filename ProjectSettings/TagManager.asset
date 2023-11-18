@@ -9,6 +9,7 @@ TagManager:
   - Arrow
   - Score3
   - Score5
+  - GameOverScreen
   layers:
   - Default
   - TransparentFX

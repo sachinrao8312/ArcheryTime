@@ -1,23 +1,32 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public Text scoreText;
     public Text arrowCountText;
+    public Text HighScore;
     public int totalScore = 0;
     public int arrowCount = 10;
+    public GameObject gameOverScreen;
+    public GameObject HitBoard;
+    public GameObject arrow;
 
     void Start()
     {
+        HitBoard = GameObject.FindGameObjectWithTag("Target");
+
         // Initialize the score text when the game starts
-        UpdateScoreUI();
+        UpdateUI();
+
     }
 
-    void UpdateScoreUI()
+    void UpdateUI()
     {
         // Update the score displayed in the UI
         scoreText.text = "Score: " + totalScore.ToString();
+        HighScore.text = "HighScore: " + totalScore.ToString() ;
         arrowCountText.text = "Arrows: " + arrowCount.ToString();
 
     }
@@ -31,25 +40,45 @@ public class GameManager : MonoBehaviour
         {
             AddNewArrow();
         }
+        CheckArrowCount(arrowCount);
+
         // Update the UI to reflect the new score
-        UpdateScoreUI();
+        UpdateUI();
     }
 
 
     public void UseArrow()
     {
         arrowCount--;
-
-        if (arrowCount == 0)
-        {
-            Debug.Log("Game Over");
-        }
-        UpdateScoreUI();
+        CheckArrowCount(arrowCount);
+        UpdateUI();
     }
 
     public void AddNewArrow()
     {
-        arrowCount++;
-        UpdateScoreUI();
+        arrowCount += 2;
+        UpdateUI();
+    }
+
+    public void RestartNewGame()
+    {
+        Debug.LogError("load new scene");
+        SceneManager.LoadScene("MainScene");
+    }
+
+    public void CheckArrowCount(int arrowCount)
+    {
+        if (arrowCount <= 0)
+        {
+            Debug.Log("Game Over");
+            arrowCount = 0; // Ensure arrow count doesn't go negative
+            gameOverScreen.SetActive(true); 
+            HitBoard.SetActive(false); 
+            arrow.SetActive(false); 
+            scoreText.enabled = false;
+            arrowCountText.enabled = false;
+            UpdateUI(); // Update UI to show 0 arrows
+
+        }
     }
 }

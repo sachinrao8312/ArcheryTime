@@ -84,6 +84,5 @@ public class ArrowController : MonoBehaviour
         gameManager.UpdateScore(score);
         Debug.LogError("Added Score : " + score);
         Destroy(gameObject, destroyAfterTime);
-
     }
 }
