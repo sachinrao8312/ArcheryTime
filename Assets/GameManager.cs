@@ -7,11 +7,19 @@ public class GameManager : MonoBehaviour
     public Text scoreText;
     public Text arrowCountText;
     public Text HighScore;
+
     public int totalScore = 0;
+    public int score = 0;
     public int arrowCount = 10;
+
+    // To enable and disable gameObject during GameOver
     public GameObject gameOverScreen;
     public GameObject HitBoard;
     public GameObject arrow;
+
+
+    // Key to store and retireve HighScore
+    private string highScoreKey = "HighScore";
 
     void Start()
     {
@@ -20,14 +28,18 @@ public class GameManager : MonoBehaviour
         // Initialize the score text when the game starts
         UpdateUI();
 
+        //Load the highestScore from PlayerPrefs 
+        LoadHighestScore();
+        HighScore.enabled = false;
+
     }
 
     void UpdateUI()
     {
         // Update the score displayed in the UI
         scoreText.text = "Score: " + totalScore.ToString();
-        HighScore.text = "HighScore: " + totalScore.ToString() ;
         arrowCountText.text = "Arrows: " + arrowCount.ToString();
+        HighScore.text = "High Score: " + GetHighestScore();
 
     }
 
@@ -35,6 +47,12 @@ public class GameManager : MonoBehaviour
     {
         // Update the score
         totalScore += score;
+
+        if (totalScore > GetHighestScore())
+        {
+            //Save the highestScore
+            SaveHighScore();
+        }
 
         if (score == 5)
         {
@@ -46,6 +64,22 @@ public class GameManager : MonoBehaviour
         UpdateUI();
     }
 
+    int GetHighestScore()
+    {
+        return PlayerPrefs.GetInt(highScoreKey, 0);
+    }
+
+    void SaveHighScore()
+    {
+        //Setting key value pair
+        PlayerPrefs.SetInt(highScoreKey, totalScore);
+        PlayerPrefs.Save();
+    }
+
+    void LoadHighestScore()
+    {
+        score = GetHighestScore();
+    }
 
     public void UseArrow()
     {
@@ -77,6 +111,7 @@ public class GameManager : MonoBehaviour
             arrow.SetActive(false); 
             scoreText.enabled = false;
             arrowCountText.enabled = false;
+            HighScore.enabled = true;
             UpdateUI(); // Update UI to show 0 arrows
 
         }
