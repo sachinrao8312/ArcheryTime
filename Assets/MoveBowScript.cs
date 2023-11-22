@@ -5,14 +5,18 @@ using UnityEngine;
 public class MoveBowScript : MonoBehaviour
 {
     public Rigidbody2D bow;
-    public float bowSpeed = 5f;
-    public float bowUpperBound = 4.6f;
-    public float bowLowerBound = -4.6f;
     public GameManager gameManager;
+
+    public float bowUpperBound = 0f;
+    public float bowLowerBound = 0f;
+    
+    public float bowSpeed = 5f;
     public float movebowScore ;
     // public SpriteRenderer myBowSprite;
     void Start()
-    {
+    {   
+        
+        CalculateBounds();
         // Move the bow downwards initially
         bow.velocity = new Vector2(0, -bowSpeed);
 
@@ -56,6 +60,18 @@ public class MoveBowScript : MonoBehaviour
         bow.velocity = new Vector2(0, speed);
     }
 
+    public  void CalculateBounds()
+    {
+        float screenHeight = Camera.main.orthographicSize * 2f;
+        float screenWidth = screenHeight * Camera.main.aspect;
+        bowUpperBound  = Camera.main.ScreenToWorldPoint(new Vector3(
+            0,screenHeight,0
+        )).y ;
+
+        bowUpperBound += (screenHeight - 2.1f );
+        bowLowerBound  =  -bowUpperBound ;
+
+    }
     //Change the BOwSprite
 //     void ChangeSprite()
 // {

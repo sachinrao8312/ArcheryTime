@@ -6,8 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/MainScene.unity
-    guid: 3d506087415ff044684a1e5f2345c08c
+    path: Assets/Scenes/Open.unity
+    guid: 5a1cf88a8b4d87744952f723a24a07f5
   m_configObjects:
     com.unity.adaptiveperformance.google.android.provider_settings: {fileID: 11400000, guid: 0198b5aaf6c57684eb262075357fe8b0, type: 2}
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 03ef0d57df1be024d82471384a14a132, type: 2}

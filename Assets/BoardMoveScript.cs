@@ -5,14 +5,18 @@ using UnityEngine;
 public class BoardMoveScript : MonoBehaviour
 {
     public Rigidbody2D board;
-    public float boardSpeed = 5f;
-    public float boardUpperBound = 4.6f;
-    public float boardLowerBound = -4.6f;
     public GameManager gameManager;
+
+    public float boardSpeed = 5f;
+    public float maxBoardSpeed = 5f;
     public static float moveBoardScore = 25f;
+
+    public float UpperBound = 0f;
+    public float LowerBound = 0f;
 
     void Start()
     {
+        CalculateBounds();
         // Move the board downwards initially
         board.velocity = new Vector2(0, -boardSpeed);
 
@@ -33,11 +37,11 @@ public class BoardMoveScript : MonoBehaviour
             if (gameManager.totalScore >= moveBoardScore)
             {
                 // Move the board continuously
-                if (board.transform.position.y > boardUpperBound)
+                if (board.transform.position.y > UpperBound)
                 {
                     MoveBoard(-boardSpeed);
                 }
-                else if (board.transform.position.y < boardLowerBound)
+                else if (board.transform.position.y < LowerBound)
                 {
                     MoveBoard(boardSpeed);
                 }
@@ -55,5 +59,17 @@ public class BoardMoveScript : MonoBehaviour
         // Move the board in the Y direction
         board.velocity = new Vector2(0, speed);
     }
-    
+
+    public void CalculateBounds()
+    {
+        float screenHeight = Camera.main.orthographicSize * 2f;
+        float screenWidth = screenHeight * Camera.main.aspect;
+        UpperBound  = Camera.main.ScreenToWorldPoint(new Vector3(
+            0,screenHeight,0
+        )).y ;
+
+        UpperBound += (screenHeight - 2.1f );
+        LowerBound  =  -UpperBound ;
+
+    }
 }

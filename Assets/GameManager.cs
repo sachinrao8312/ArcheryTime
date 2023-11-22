@@ -4,11 +4,14 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    // Text Shown in the UI
     public Text scoreText;
     public Text arrowCountText;
     public Text HighScore;
     public Text currentScore;
 
+
+    // Total Score while game and arrowCounts
     public int totalScore = 0;
     public int score = 0;
     public int arrowCount = 10;
@@ -31,7 +34,6 @@ public class GameManager : MonoBehaviour
 
         //Load the highestScore from PlayerPrefs 
         LoadHighestScore();
-        HighScore.enabled = false;
 
     }
 
@@ -49,31 +51,26 @@ public class GameManager : MonoBehaviour
     {
         // Update the score
         totalScore += score;
-
+        
+        // Updates the HighScore If currentTotalScore is greater than HighScore Saved
         if (totalScore > GetHighestScore())
         {
             //Save the highestScore
             SaveHighScore();
         }
 
-        if (score == 5)
-        {
-            AddNewArrow(2);
-        }
-        if (score == 1)
-        {
-            AddNewArrow(1);
-        }
-        if (score == 3)
-        {
-            AddNewArrow(1);
-        }
+        //New ArrowsBasedOnScore
+        int newArrow = (score == 5) ? 2 : 1 ;
+        AddNewArrow(newArrow);
+        
+        //Checks If arrow is Sufficient to Continue the game
         CheckArrowCount(arrowCount);
 
         // Update the UI to reflect the new score
         UpdateUI();
     }
 
+    // Returns Highest Score
     int GetHighestScore()
     {
         return PlayerPrefs.GetInt(highScoreKey, 0);
@@ -86,17 +83,21 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.Save();
     }
 
+    //Load HighScore from memory
     void LoadHighestScore()
     {
         score = GetHighestScore();
     }
 
+
+    //Reduces arrowCount if used
     public void UseArrow()
     {
         --arrowCount;
         CheckArrowCount(arrowCount);
         UpdateUI();
     }
+
 
     public void AddNewArrow(int arrow)
     {
@@ -109,6 +110,7 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("MainScene");
     }
 
+    //Checks for valid no of arrows
     public void CheckArrowCount(int arrowCount)
     {
         if (arrowCount <= 0)
