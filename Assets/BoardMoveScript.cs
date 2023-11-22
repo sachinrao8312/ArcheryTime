@@ -8,15 +8,19 @@ public class BoardMoveScript : MonoBehaviour
     public GameManager gameManager;
 
     public float boardSpeed = 5f;
-    public float maxBoardSpeed = 5f;
+    public float maxBoardSpeed = 15f;
     public static float moveBoardScore = 25f;
+    public float accelerationRate = 0.1f;
+    private float startTime;
 
-    public float UpperBound = 0f;
-    public float LowerBound = 0f;
+    public float UpperBound = 4.6f;
+    public float LowerBound = -4.6f;
 
     void Start()
     {
-        CalculateBounds();
+        //Starts the time
+        startTime = Time.time;
+
         // Move the board downwards initially
         board.velocity = new Vector2(0, -boardSpeed);
 
@@ -30,6 +34,8 @@ public class BoardMoveScript : MonoBehaviour
 
     void Update()
     {
+        AcclerateBoard();
+        
         // Check if the gameManager is not null
         if (gameManager != null)
         {
@@ -51,6 +57,7 @@ public class BoardMoveScript : MonoBehaviour
                 // The board is fixed at a specific position
                 board.transform.position = new Vector3(18.94757f, 0f, 0f);
             }
+
         }
     }
 
@@ -59,17 +66,18 @@ public class BoardMoveScript : MonoBehaviour
         // Move the board in the Y direction
         board.velocity = new Vector2(0, speed);
     }
+    
 
-    public void CalculateBounds()
-    {
-        float screenHeight = Camera.main.orthographicSize * 2f;
-        float screenWidth = screenHeight * Camera.main.aspect;
-        UpperBound  = Camera.main.ScreenToWorldPoint(new Vector3(
-            0,screenHeight,0
-        )).y ;
+    
+    public  void AcclerateBoard()
+    {   
+        float elapsedSeconds = Time.time - startTime;
+        float timeToAcclerate = elapsedSeconds * accelerationRate;
+        //Increase Speed Gradually based On Score
+        float scoreToAcclerate = gameManager.totalScore * accelerationRate * 0.1f;
 
-        UpperBound += (screenHeight - 2.1f );
-        LowerBound  =  -UpperBound ;
-
+        //Choose b/w current Speed and MaxSpeed
+        float newSpeed = Mathf.Min(board.velocity.y + scoreToAcclerate + timeToAcclerate,maxBoardSpeed);
+        boardSpeed = newSpeed;
     }
 }

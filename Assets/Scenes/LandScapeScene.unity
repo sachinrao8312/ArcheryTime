@@ -579,7 +579,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.2, y: 0.3}
+  m_AnchoredPosition: {x: 2.36, y: 0.3}
   m_SizeDelta: {x: 2.3, y: 2.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &583542743
@@ -704,10 +704,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bow: {fileID: 583542746}
-  bowSpeed: 5
+  gameManager: {fileID: 620021302}
   bowUpperBound: 4.6
   bowLowerBound: -4.6
-  gameManager: {fileID: 620021302}
+  aclerationRate: 0.1
+  bowSpeed: 5
+  maxBowSpeed: 10
   movebowScore: 45
 --- !u!50 &583542746
 Rigidbody2D:
@@ -1064,7 +1066,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 18.51, y: 0}
+  m_AnchoredPosition: {x: 17.9, y: 0}
   m_SizeDelta: {x: 8, y: 8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!50 &1200335684
@@ -1107,10 +1109,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   board: {fileID: 1200335684}
-  boardSpeed: 5.37
-  boardUpperBound: 4.6
-  boardLowerBound: -4.6
   gameManager: {fileID: 620021302}
+  boardSpeed: 5
+  maxBoardSpeed: 15
+  aclerationRate: 0.1
+  UpperBound: 4.6
+  LowerBound: -4.6
 --- !u!61 &1200335686
 BoxCollider2D:
   m_ObjectHideFlags: 0

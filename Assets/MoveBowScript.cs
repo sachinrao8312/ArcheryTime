@@ -7,16 +7,20 @@ public class MoveBowScript : MonoBehaviour
     public Rigidbody2D bow;
     public GameManager gameManager;
 
-    public float bowUpperBound = 0f;
-    public float bowLowerBound = 0f;
+    public float bowUpperBound = 4.6f;
+    public float bowLowerBound = -4.6f;
     
+    public float accelerationRate = 0.1f;
     public float bowSpeed = 5f;
+    public float startTime;
+    public float maxBowSpeed = 10f;
     public float movebowScore ;
     // public SpriteRenderer myBowSprite;
     void Start()
     {   
+        //Starts the time
+        startTime = Time.time;
         
-        CalculateBounds();
         // Move the bow downwards initially
         bow.velocity = new Vector2(0, -bowSpeed);
 
@@ -30,6 +34,7 @@ public class MoveBowScript : MonoBehaviour
 
     void Update()
     {
+        AcclerateBoard();
         // Check if the gameManager is not null
         if (gameManager != null)
         {
@@ -51,6 +56,7 @@ public class MoveBowScript : MonoBehaviour
                 // Bow is fixed at a specific position
                 bow.transform.position = new Vector3(3.887575f, 0f, 0f);
             }
+            
         }
     }
 
@@ -60,17 +66,16 @@ public class MoveBowScript : MonoBehaviour
         bow.velocity = new Vector2(0, speed);
     }
 
-    public  void CalculateBounds()
+   public void AcclerateBoard()
     {
-        float screenHeight = Camera.main.orthographicSize * 2f;
-        float screenWidth = screenHeight * Camera.main.aspect;
-        bowUpperBound  = Camera.main.ScreenToWorldPoint(new Vector3(
-            0,screenHeight,0
-        )).y ;
+        float elapsedSeconds = Time.time - startTime;
+        float timeToAcclerate = elapsedSeconds * accelerationRate;
+        //Increase Speed Gradually based On Score
+        float scoreToAcclerate = gameManager.totalScore * accelerationRate * 0.1f;
 
-        bowUpperBound += (screenHeight - 2.1f );
-        bowLowerBound  =  -bowUpperBound ;
-
+        //Choose b/w current Speed and MaxSpeed
+        float newSpeed = Mathf.Min(bow.velocity.y + scoreToAcclerate + timeToAcclerate,maxBowSpeed);
+        bowSpeed = newSpeed;
     }
     //Change the BOwSprite
 //     void ChangeSprite()

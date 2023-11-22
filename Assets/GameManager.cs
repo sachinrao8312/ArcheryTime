@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     public int totalScore = 0;
     public int score = 0;
     public int arrowCount = 10;
-
+    
     // To enable and disable gameObject during GameOver
     public GameObject gameOverScreen;
     public GameObject HitBoard;
@@ -126,4 +126,5 @@ public class GameManager : MonoBehaviour
 
         }
     }
+
 }
