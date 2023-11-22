@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     public Text scoreText;
     public Text arrowCountText;
     public Text HighScore;
+    public Text currentScore;
 
     public int totalScore = 0;
     public int score = 0;
@@ -38,6 +39,7 @@ public class GameManager : MonoBehaviour
     {
         // Update the score displayed in the UI
         scoreText.text = "Score: " + totalScore.ToString();
+        currentScore.text = "Current " +scoreText.text ;
         arrowCountText.text = "Arrows: " + arrowCount.ToString();
         HighScore.text = "High Score: " + GetHighestScore();
 
@@ -56,7 +58,15 @@ public class GameManager : MonoBehaviour
 
         if (score == 5)
         {
-            AddNewArrow();
+            AddNewArrow(2);
+        }
+        if (score == 1)
+        {
+            AddNewArrow(1);
+        }
+        if (score == 3)
+        {
+            AddNewArrow(1);
         }
         CheckArrowCount(arrowCount);
 
@@ -88,9 +98,9 @@ public class GameManager : MonoBehaviour
         UpdateUI();
     }
 
-    public void AddNewArrow()
+    public void AddNewArrow(int arrow)
     {
-        ++arrowCount;
+        arrowCount += arrow + 1 ;
         UpdateUI();
     }
 

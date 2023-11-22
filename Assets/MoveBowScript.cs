@@ -9,7 +9,7 @@ public class MoveBowScript : MonoBehaviour
     public float bowUpperBound = 4.6f;
     public float bowLowerBound = -4.6f;
     public GameManager gameManager;
-    public float movebowScore;
+    public float movebowScore ;
     // public SpriteRenderer myBowSprite;
     void Start()
     {

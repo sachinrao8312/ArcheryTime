@@ -9,7 +9,7 @@ public class BoardMoveScript : MonoBehaviour
     public float boardUpperBound = 4.6f;
     public float boardLowerBound = -4.6f;
     public GameManager gameManager;
-    public static float moveBoardScore = 15f;
+    public static float moveBoardScore = 25f;
 
     void Start()
     {
