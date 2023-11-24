@@ -789,7 +789,8 @@ MonoBehaviour:
   currentScore: {fileID: 2097267025}
   totalScore: 0
   score: 0
-  arrowCount: 10
+  noNewArrowfromSideScore: 50
+  arrowCount: 7
   gameOverScreen: {fileID: 2139205404}
   HitBoard: {fileID: 1200335681}
   arrow: {fileID: 583542739}

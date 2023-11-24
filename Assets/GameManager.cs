@@ -14,8 +14,10 @@ public class GameManager : MonoBehaviour
     // Total Score while game and arrowCounts
     public int totalScore = 0;
     public int score = 0;
-    public int arrowCount = 10;
-    
+    public int noNewArrowfromSideScore = 50;
+    //intialArrowCount
+    public int arrowCount = 7;
+
     // To enable and disable gameObject during GameOver
     public GameObject gameOverScreen;
     public GameObject HitBoard;
@@ -41,7 +43,7 @@ public class GameManager : MonoBehaviour
     {
         // Update the score displayed in the UI
         scoreText.text = "Score: " + totalScore.ToString();
-        currentScore.text = "Current " +scoreText.text ;
+        currentScore.text = "Current " + scoreText.text;
         arrowCountText.text = "Arrows: " + arrowCount.ToString();
         HighScore.text = "High Score: " + GetHighestScore();
 
@@ -51,7 +53,7 @@ public class GameManager : MonoBehaviour
     {
         // Update the score
         totalScore += score;
-        
+
         // Updates the HighScore If currentTotalScore is greater than HighScore Saved
         if (totalScore > GetHighestScore())
         {
@@ -60,9 +62,18 @@ public class GameManager : MonoBehaviour
         }
 
         //New ArrowsBasedOnScore
-        int newArrow = (score == 5) ? 2 : 1 ;
-        AddNewArrow(newArrow);
-        
+        if (totalScore <= noNewArrowfromSideScore)
+        {
+            // int newArrow = (score == 5) ? 2 : 1;
+            AddNewArrow(1);
+        }
+        else if (score == 5)
+        {
+            AddNewArrow(2);
+
+        }
+
+
         //Checks If arrow is Sufficient to Continue the game
         CheckArrowCount(arrowCount);
 
@@ -101,7 +112,7 @@ public class GameManager : MonoBehaviour
 
     public void AddNewArrow(int arrow)
     {
-        arrowCount += arrow + 1 ;
+        arrowCount += arrow + 1;
         UpdateUI();
     }
 
@@ -116,9 +127,9 @@ public class GameManager : MonoBehaviour
         if (arrowCount <= 0)
         {
             arrowCount = 0; // Ensure arrow count doesn't go negative
-            gameOverScreen.SetActive(true); 
-            HitBoard.SetActive(false); 
-            arrow.SetActive(false); 
+            gameOverScreen.SetActive(true);
+            HitBoard.SetActive(false);
+            arrow.SetActive(false);
             scoreText.enabled = false;
             arrowCountText.enabled = false;
             HighScore.enabled = true;
