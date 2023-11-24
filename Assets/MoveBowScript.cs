@@ -75,7 +75,7 @@ public class MoveBowScript : MonoBehaviour
         // Choose between current Speed and MaxSpeed
         float newSpeed = Mathf.Min(bow.velocity.y + timeToAcclerate, maxBowSpeed);
 
-        bowSpeed = newSpeed;
+        bowSpeed = newSpeed <= 0 ? bowSpeed : newSpeed;
     }
     //Change the BOwSprite
     //     void ChangeSprite()

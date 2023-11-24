@@ -9,7 +9,7 @@ public class BoardMoveScript : MonoBehaviour
 
     public float maxBoardSpeed;
     public float initialboardSpeed;
-    public static float moveBoardScore = 25f;
+    public static float moveBoardScore = 45f;
     public float accelerationRate;
     private float startTime;
 
@@ -90,7 +90,7 @@ public class BoardMoveScript : MonoBehaviour
         // Choose between current Speed and MaxSpeed
         float newSpeed = Mathf.Min(board.velocity.y + scoreToAcclerate + timeToAcclerate, maxBoardSpeed);
 
-        initialboardSpeed = newSpeed;
+        initialboardSpeed = newSpeed > 0 ? newSpeed : initialboardSpeed;
     }
 
 

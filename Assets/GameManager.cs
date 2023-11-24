@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     // Total Score while game and arrowCounts
     public int totalScore = 0;
     public int score = 0;
-    public int noNewArrowfromSideScore = 50;
+    public int noNewArrowfromSideScore = Random.Range(40, 60);
     //intialArrowCount
     public int arrowCount = 7;
 
