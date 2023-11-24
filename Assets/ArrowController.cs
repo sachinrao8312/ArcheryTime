@@ -10,7 +10,6 @@ public class ArrowController : MonoBehaviour
     private Transform HitBoard;
     private bool isAttached = false;
     // public AudioSource arrowHit;
-
     public CapsuleCollider2D capsuleCollider2d;
 
     void Start()

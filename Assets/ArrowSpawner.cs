@@ -26,7 +26,7 @@ public class ArrowSpawner : MonoBehaviour
         {
             Instantiate(arrowController, transform.position, transform.rotation);
             canSpawnArrow = false;
-            yield return new WaitForSeconds(0.1f); // Adjust the delay duration as needed
+            yield return new WaitForSeconds(0.8f); // Adjust the delay duration as needed
             canSpawnArrow = true;
         }
         else
