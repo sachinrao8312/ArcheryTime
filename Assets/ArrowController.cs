@@ -54,16 +54,9 @@ public class ArrowController : MonoBehaviour
             gameManager.UseArrow();
             
         }
-        if (collision.gameObject.CompareTag("Score3"))
+        else if (collision.gameObject.CompareTag("Score3"))
         {
             HandleCollision(3);
-            gameManager.UseArrow();
-            
-
-        }
-        if (collision.gameObject.CompareTag("Score5"))
-        {
-            HandleCollision(5);
             gameManager.UseArrow();
             
 

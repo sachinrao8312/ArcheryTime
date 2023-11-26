@@ -9,7 +9,7 @@ public class BoardMoveScript : MonoBehaviour
 
     public float maxBoardSpeed;
     public float initialboardSpeed;
-    public static float moveBoardScore = 45f;
+    public static float moveBoardScore = 35f;
     public float accelerationRate;
     private float startTime;
 
