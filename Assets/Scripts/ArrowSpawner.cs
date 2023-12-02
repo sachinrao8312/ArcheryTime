@@ -1,16 +1,19 @@
-// ArrowSpawner.cs
-
 using System.Collections;
 using UnityEngine;
 
 public class ArrowSpawner : MonoBehaviour
 {
+    // Prefab for the arrow
     public GameObject arrowController;
-    // public AudioSource arrowReleased;
 
+    // Flag to control arrow spawning
     public static bool canSpawnArrow = true;
 
+    // Singleton instance
     public static ArrowSpawner Instance { get; private set; }
+
+    // Reference to your GameManager
+    public GameManager gameManager;
 
     void Start()
     {
@@ -23,7 +26,6 @@ public class ArrowSpawner : MonoBehaviour
         {
             StartCoroutine(SpawnArrowWithDelay());
         }
-
     }
 
     private bool ShouldSpawnArrow()
@@ -32,25 +34,23 @@ public class ArrowSpawner : MonoBehaviour
     }
 
     IEnumerator SpawnArrowWithDelay()
+{
+    if (arrowController != null)
     {
-        if (arrowController != null)
-        {
-            GameObject newArrow = Instantiate(arrowController, transform.position, transform.rotation);
-            // arrowReleased.Play();
-
-            canSpawnArrow = false;
-            yield return new WaitForSeconds(0.8f);
-            canSpawnArrow = true;
-        }
-        else
-        {
-            Debug.LogError("ArrowController is null. Assign a prefab to it in the Inspector.");
-        }
+        GameObject newArrow = Instantiate(arrowController, transform.position, transform.rotation);
+        canSpawnArrow = false;
+        yield return new WaitForSeconds(0.8f);
+        canSpawnArrow = true;
     }
+    else
+    {
+        Debug.LogError("ArrowController is null. Assign a prefab to it in the Inspector.");
+    }
+}
 
+    // Method to auto-release an arrow
     public void AutoReleaseArrow()
     {
-        // This method is called when the arrow should be automatically released
         if (canSpawnArrow)
         {
             StartCoroutine(SpawnArrowWithDelay());

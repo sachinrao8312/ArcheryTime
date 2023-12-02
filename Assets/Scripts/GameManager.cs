@@ -23,9 +23,10 @@ public class GameManager : MonoBehaviour
     public GameObject gameOverScreen;
     public GameObject HitBoard;
     public GameObject arrow;
+    public GameObject topBarUI;
 
     // Timer for the arrow
-    public float arrowTimer = 10f;
+    public float arrowTimer = 3f;
 
     // Key to store and retrieve HighScore
     private string highScoreKey = "HighScore";
@@ -53,11 +54,12 @@ public class GameManager : MonoBehaviour
             arrowTimer -= Time.deltaTime;
 
             // Automatically shoot arrow when timer reaches zero
-            if (arrowTimer < 0)
+            if (arrowTimer <= 1)
             {
                 ArrowSpawner.Instance.AutoReleaseArrow();
-                arrowTimer = 10f; // Reset the timer
+                arrowTimer = 3f; // Reset the timer
             }
+
 
             UpdateUI();
         }
@@ -71,7 +73,7 @@ public class GameManager : MonoBehaviour
         arrowCountText.text = "Arrows: " + arrowCount.ToString();
         HighScore.text = "High Score: " + GetHighestScore();
         // Round the timer value
-        timerText.text = "Timer: " + Mathf.Round(arrowTimer).ToString();
+        timerText.text = Mathf.Round(arrowTimer).ToString();
     }
 
     public void UpdateScore(int score)
@@ -138,7 +140,7 @@ public class GameManager : MonoBehaviour
 
     public void RestartNewGame()
     {
-        SceneManager.LoadScene("MainScene");
+        SceneManager.LoadScene("GameScene");
     }
 
     // Checks for valid no of arrows
@@ -150,9 +152,7 @@ public class GameManager : MonoBehaviour
             gameOverScreen.SetActive(true);
             HitBoard.SetActive(false);
             arrow.SetActive(false);
-            scoreText.enabled = false;
-            arrowCountText.enabled = false;
-            timerText.enabled = false;
+            topBarUI.SetActive(false);
             HighScore.enabled = true;
             UpdateUI(); // Update UI to show 0 arrows
         }

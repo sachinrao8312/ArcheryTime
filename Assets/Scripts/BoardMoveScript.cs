@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BoardMoveScript : MonoBehaviour
@@ -8,100 +7,82 @@ public class BoardMoveScript : MonoBehaviour
     public GameManager gameManager;
 
     public float maxBoardSpeed;
-    public float initialboardSpeed;
+    public float initialBoardSpeed;
     public static float moveBoardScore = 35f;
     public float accelerationRate;
     private float startTime;
 
-    public float UpperBound;
-    public float LowerBound;
-    private float targetYCoordinate;
+    private float targetXCoordinate;
+
+    // Add these variables for x-axis movement
+    public float minX = -5f;
+    public float maxX = 5f;
 
     void Start()
     {
-        // Starts the time
         startTime = Time.time;
-
-        // Check if the GameManager is not null before accessing it
         GameObject managerObj = GameObject.FindGameObjectWithTag("GameManager");
         gameManager = managerObj?.GetComponent<GameManager>();
     }
 
     void Update()
     {
-        AcclerateBoard();
-
-        // Check if the gameManager is not null
         if (gameManager != null)
         {
             if (gameManager.totalScore < moveBoardScore)
             {
-                // Check if the board is close enough to the target Y-coordinate
-                if (Mathf.Abs(board.transform.position.y - targetYCoordinate) < 0.1f)
+                if (Mathf.Abs(board.transform.position.x - targetXCoordinate) <= 0.1f)
                 {
-                    MoveBoard(0); // Stop the board
+                    MoveBoard(0);
                 }
-                // Move the board continuously
                 MoveBoardContinuously();
-
             }
-            // Checks for score and moves the board only after the score is greater than or equal to moveBoardScore
             else if (gameManager.totalScore >= moveBoardScore)
             {
                 MoveBoardContinuously();
-                AcclerateBoard();
-
+                AccelerateBoard();
             }
             else
             {
-                // The board is fixed at a specific position
-                board.transform.position = new Vector3(18.94757f, 0f, 0f);
+                board.transform.position = new Vector3(0f, 9f, 0f);
             }
         }
     }
 
     void MoveBoard(float speed)
     {
-        // Move the board in the Y direction
-        board.velocity = new Vector2(0, speed);
+        board.velocity = new Vector2(speed, 0f);
     }
 
     void MoveBoardContinuously()
     {
-        // Move the board continuously
-        if (board.transform.position.y > UpperBound)
+        if (board.transform.position.x >= maxX)
         {
-            MoveBoard(-initialboardSpeed);
+            MoveBoard(-initialBoardSpeed);
         }
-        else if (board.transform.position.y < LowerBound)
+        else if (board.transform.position.x <= minX)
         {
-            MoveBoard(initialboardSpeed);
+            MoveBoard(initialBoardSpeed);
         }
     }
 
-    void AcclerateBoard()
+    void AccelerateBoard()
     {
         float elapsedSeconds = Time.time - startTime;
-        float timeToAcclerate = elapsedSeconds * accelerationRate;
+        float timeToAccelerate = elapsedSeconds * accelerationRate;
 
-        // Increase Speed Gradually based On Score
-        float scoreToAcclerate = gameManager.totalScore * accelerationRate * 0.1f;
+        float scoreToAccelerate = gameManager.totalScore * accelerationRate * 0.1f;
+        float newSpeed = Mathf.Min(board.velocity.x + scoreToAccelerate + timeToAccelerate, maxBoardSpeed);
 
-        // Choose between current Speed and MaxSpeed
-        float newSpeed = Mathf.Min(board.velocity.y + scoreToAcclerate + timeToAcclerate, maxBoardSpeed);
-
-        initialboardSpeed = newSpeed > 0 ? newSpeed : initialboardSpeed;
+        initialBoardSpeed = newSpeed > 0 ? newSpeed : initialBoardSpeed;
     }
-
 
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Arrow"))
         {
-            targetYCoordinate = Random.Range(LowerBound, UpperBound);
-
-            // Move the board towards the target Y-coordinate                    
-            MoveBoard(targetYCoordinate > 0 ? maxBoardSpeed : -maxBoardSpeed);
+            targetXCoordinate = Random.Range(minX, maxX);
+            MoveBoard(targetXCoordinate > 0 ? maxBoardSpeed : -maxBoardSpeed);
         }
     }
 }

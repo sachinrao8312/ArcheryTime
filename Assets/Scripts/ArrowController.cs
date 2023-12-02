@@ -30,20 +30,20 @@ public class ArrowController : MonoBehaviour
             transform.position = new Vector3(arrowRigidbody.position.x, arrowRigidbody.position.y, 0f);
         }
 
-        else if (transform.position.x > DestroyAt)
+        else if (arrowRigidbody.position.y >= DestroyAt)
         {
             // Arrow has missed the board, destroy it
             Destroy(gameObject);
             // Call UseArrow here to decrease arrow if it misses
             gameManager.UseArrow();
 
-        }
+        }        
     }
 
     void ShootArrow()
     {
         // Set initial velocity for shooting
-        arrowRigidbody.velocity = new Vector2(arrowSpeed, 0f);
+        arrowRigidbody.velocity = new Vector2(0f, arrowSpeed);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
