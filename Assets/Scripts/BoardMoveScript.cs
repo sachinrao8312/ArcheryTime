@@ -1,72 +1,94 @@
-using System.Collections;
 using UnityEngine;
 
 public class BoardMoveScript : MonoBehaviour
 {
-    public Rigidbody2D board;
-    public GameManager gameManager;
+    // Fields made private and serialized for better encapsulation and Unity Inspector visibility
+    [SerializeField] private Rigidbody2D board;
+    [SerializeField] private GameManager gameManager;
 
-    public float maxBoardSpeed;
-    public float initialBoardSpeed;
+    [Header("Movement Settings")]
+    [SerializeField] private float maxBoardSpeed = 5f;
+    [SerializeField] private float initialBoardSpeed = 2f;
+    [SerializeField] private float accelerationRate = 0.1f;
     public static float moveBoardScore = 35f;
-    public float accelerationRate;
-    private float startTime;
 
+    [Header("X-axis Movement Settings")]
+    [SerializeField] private float minX = -5f;
+    [SerializeField] private float maxX = 5f;
+
+    private float startTime;
     private float targetXCoordinate;
 
-    // Add these variables for x-axis movement
-    public float minX = -5f;
-    public float maxX = 5f;
-
-    void Start()
+    private void Start()
     {
         startTime = Time.time;
+        FindGameManager();
+    }
+
+    private void FindGameManager()
+    {
         GameObject managerObj = GameObject.FindGameObjectWithTag("GameManager");
         gameManager = managerObj?.GetComponent<GameManager>();
+        // Add null check for GameManager
+        if (gameManager == null)
+        {
+            Debug.LogError("GameManager not found on BoardMoveScript.");
+        }
     }
 
-    void Update()
+    private void Update()
     {
-        if (gameManager != null)
+        // Add null check for GameManager
+        if (gameManager == null)
         {
-            if (gameManager.totalScore < moveBoardScore)
+            return;
+        }
+
+        if (gameManager.totalScore < moveBoardScore)
+        {
+            if (Mathf.Abs(board.transform.position.x - targetXCoordinate) <= 0.1f)
             {
-                if (Mathf.Abs(board.transform.position.x - targetXCoordinate) <= 0.1f)
-                {
-                    MoveBoard(0);
-                }
-                MoveBoardContinuously();
+                MoveBoard(0);
             }
-            else if (gameManager.totalScore >= moveBoardScore)
+            MoveBoardContinuously();
+        }
+        else if (gameManager.totalScore >= moveBoardScore)
+        {
+            MoveBoardContinuously();
+            AccelerateBoard();
+        }
+        else
+        {
+            ResetBoardPosition();
+        }
+    }
+
+    private void MoveBoard(float speed)
+    {
+        // Add null check for board
+        if (board != null)
+        {
+            board.velocity = new Vector2(speed, 0f);
+        }
+    }
+
+    private void MoveBoardContinuously()
+    {
+        // Add null check for board
+        if (board != null)
+        {
+            if (board.transform.position.x >= maxX)
             {
-                MoveBoardContinuously();
-                AccelerateBoard();
+                MoveBoard(-initialBoardSpeed);
             }
-            else
+            else if (board.transform.position.x <= minX)
             {
-                board.transform.position = new Vector3(0f, 9f, 0f);
+                MoveBoard(initialBoardSpeed);
             }
         }
     }
 
-    void MoveBoard(float speed)
-    {
-        board.velocity = new Vector2(speed, 0f);
-    }
-
-    void MoveBoardContinuously()
-    {
-        if (board.transform.position.x >= maxX)
-        {
-            MoveBoard(-initialBoardSpeed);
-        }
-        else if (board.transform.position.x <= minX)
-        {
-            MoveBoard(initialBoardSpeed);
-        }
-    }
-
-    void AccelerateBoard()
+    private void AccelerateBoard()
     {
         float elapsedSeconds = Time.time - startTime;
         float timeToAccelerate = elapsedSeconds * accelerationRate;
@@ -77,9 +99,18 @@ public class BoardMoveScript : MonoBehaviour
         initialBoardSpeed = newSpeed > 0 ? newSpeed : initialBoardSpeed;
     }
 
-    void OnTriggerEnter2D(Collider2D collision)
+    private void ResetBoardPosition()
     {
-        if (collision.gameObject.CompareTag("Arrow"))
+        // Add null check for board
+        if (board != null)
+        {
+            board.transform.position = new Vector3(0f, 9f, 0f);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision != null && collision.gameObject.CompareTag("Arrow"))
         {
             targetXCoordinate = Random.Range(minX, maxX);
             MoveBoard(targetXCoordinate > 0 ? maxBoardSpeed : -maxBoardSpeed);

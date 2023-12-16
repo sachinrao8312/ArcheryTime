@@ -4,10 +4,10 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Score3
   - GameManager
   - Target
   - Arrow
+  - Center
   layers:
   - Default
   - TransparentFX

@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 6540100105026665105}
   - component: {fileID: 4632426110911341164}
   - component: {fileID: 6327349222271903106}
-  - component: {fileID: 495662382141468413}
   m_Layer: 5
   m_Name: ScrollingBackGround
   m_TagString: Untagged
@@ -73,18 +72,3 @@ MonoBehaviour:
     y: 0
     width: 20
     height: 20
---- !u!114 &495662382141468413
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6986345982202008624}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d022bfc7fff7974a8d910a82c09cfdc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _img: {fileID: 6327349222271903106}
-  _x: 0.1
-  _y: 0.1

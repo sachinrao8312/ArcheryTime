@@ -8,13 +8,13 @@ public class GameManager : MonoBehaviour
     // Text Shown in the UI
     public TMP_Text scoreText;
     public TMP_Text arrowCountText;
-    public TMP_Text HighScore;
-    public TMP_Text currentScore;
+    public TMP_Text HighScoreText;
+    public TMP_Text currentScoreText;
     public TMP_Text timerText;
 
     // Total Score while game and arrowCounts
     public int totalScore = 0;
-    public int score = 0;
+    public int HighestScore = 0;
     public int noNewArrowfromSideScore;
     // Initial Arrow Count
     public int arrowCount = 7;
@@ -24,7 +24,6 @@ public class GameManager : MonoBehaviour
     public GameObject HitBoard;
     public GameObject arrow;
     public GameObject topBarUI;
-
     // Timer for the arrow
     public float arrowTimer = 3f;
 
@@ -37,7 +36,7 @@ public class GameManager : MonoBehaviour
         HitBoard = GameObject.FindGameObjectWithTag("Target");
 
         // Initialize the timer
-        arrowTimer = 10f;
+        arrowTimer = 3f;
 
         // Initialize the score text when the game starts
         UpdateUI();
@@ -60,7 +59,6 @@ public class GameManager : MonoBehaviour
                 arrowTimer = 3f; // Reset the timer
             }
 
-
             UpdateUI();
         }
     }
@@ -69,9 +67,9 @@ public class GameManager : MonoBehaviour
     {
         // Update the score displayed in the UI
         scoreText.text = "Score: " + totalScore.ToString();
-        currentScore.text = "Current " + scoreText.text;
+        currentScoreText.text = "Current " + scoreText.text;
         arrowCountText.text = "Arrows: " + arrowCount.ToString();
-        HighScore.text = "High Score: " + GetHighestScore();
+        HighScoreText.text = "High Score: " + GetHighestScore();
         // Round the timer value
         timerText.text = Mathf.Round(arrowTimer).ToString();
     }
@@ -93,9 +91,12 @@ public class GameManager : MonoBehaviour
         {
             AddNewArrow(1);
         }
-        else if (score == 5)
+        else
         {
-            AddNewArrow(2);
+            if (score == 3)
+            {
+                AddNewArrow(2);
+            }
         }
 
         // Checks If arrow is Sufficient to Continue the game
@@ -121,7 +122,7 @@ public class GameManager : MonoBehaviour
     // Load HighScore from memory
     void LoadHighestScore()
     {
-        score = GetHighestScore();
+        HighestScore = GetHighestScore();
     }
 
     // Reduces arrowCount if used
@@ -153,7 +154,7 @@ public class GameManager : MonoBehaviour
             HitBoard.SetActive(false);
             arrow.SetActive(false);
             topBarUI.SetActive(false);
-            HighScore.enabled = true;
+            HighScoreText.enabled = true;
             UpdateUI(); // Update UI to show 0 arrows
         }
     }

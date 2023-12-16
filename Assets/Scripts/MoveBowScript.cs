@@ -2,29 +2,25 @@ using UnityEngine;
 
 public class MoveBowScript : MonoBehaviour
 {
-    public Rigidbody2D bow;
-    public GameManager gameManager;
+    [SerializeField] private Rigidbody2D bow;
+    [SerializeField] private GameManager gameManager;
 
-    public float accelerationRate = 0.1f;
-    public float bowSpeed = 2f;
-    public float startTime;
-    public float maxBowSpeed = 7f;
-    public float moveBowScore;
+    [Header("Bow Movement Settings")]
+    [SerializeField] private float accelerationRate = 0.1f;
+    [SerializeField] private float bowSpeed = 2f;
+    [SerializeField] private float maxBowSpeed = 7f;
+    [SerializeField] private float moveBowScore;
 
-    // Add these variables for x-axis movement
-    public float minX = -4.6f;
-    public float maxX = 4.6f;
+    [Header("X-axis Movement Settings")]
+    [SerializeField] private float minX = -4.6f;
+    [SerializeField] private float maxX = 4.6f;
+
+    private float startTime;
 
     private void Start()
     {
-        startTime = Time.time;
-        bow.velocity = new Vector2(bowSpeed, 0f);
-
-        GameObject managerObj = GameObject.FindGameObjectWithTag("GameManager");
-        if (managerObj != null)
-        {
-            gameManager = managerObj.GetComponent<GameManager>();
-        }
+        InitializeComponents();
+        SetupBowVelocity();
     }
 
     private void Update()
@@ -36,32 +32,72 @@ public class MoveBowScript : MonoBehaviour
         }
     }
 
+    private void InitializeComponents()
+    {
+        startTime = Time.time;
+
+        if (bow == null)
+        {
+            bow = GetComponent<Rigidbody2D>();
+        }
+
+        GameObject managerObj = GameObject.FindGameObjectWithTag("GameManager");
+        if (managerObj != null)
+        {
+            gameManager = managerObj.GetComponent<GameManager>();
+        }
+        else
+        {
+            Debug.LogError("GameManager not found on MoveBowScript.");
+        }
+    }
+
+    private void SetupBowVelocity()
+    {
+        if (bow != null)
+        {
+            bow.velocity = new Vector2(bowSpeed, 0f);
+        }
+        else
+        {
+            Debug.LogError("Rigidbody2D not assigned to MoveBowScript.");
+        }
+    }
+
     private void MoveBow(float speed)
     {
-        bow.velocity = new Vector2(speed, 0);
+        if (bow != null)
+        {
+            bow.velocity = new Vector2(speed, 0);
+        }
     }
 
     private void MoveBowContinuously()
     {
-        // Check if the bow is at the bounds, and reverse the direction if necessary
-        if (bow.transform.position.x >= maxX)
+        if (bow != null)
         {
-            MoveBow(-bowSpeed);
+            // Check if the bow is at the bounds, and reverse the direction if necessary
+            if (bow.transform.position.x >= maxX)
+            {
+                MoveBow(-bowSpeed);
+            }
+            else if (bow.transform.position.x <= minX)
+            {
+                MoveBow(bowSpeed);
+            }
         }
-        else if (bow.transform.position.x <= minX)
-        {
-            MoveBow(bowSpeed);
-        }
-       
     }
 
     private void AccelerateBow()
     {
-        float elapsedSeconds = Time.time - startTime;
-        float timeToAccelerate = elapsedSeconds * accelerationRate;
+        if (bow != null)
+        {
+            float elapsedSeconds = Time.time - startTime;
+            float timeToAccelerate = elapsedSeconds * accelerationRate;
 
-        float newSpeed = Mathf.Min(bow.velocity.x + timeToAccelerate, maxBowSpeed);
+            float newSpeed = Mathf.Min(bow.velocity.x + timeToAccelerate, maxBowSpeed);
 
-        bowSpeed = newSpeed <= 0 ? bowSpeed : newSpeed;
+            bowSpeed = newSpeed <= 0 ? bowSpeed : newSpeed;
+        }
     }
 }

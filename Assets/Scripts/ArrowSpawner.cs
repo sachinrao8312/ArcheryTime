@@ -4,23 +4,29 @@ using UnityEngine;
 public class ArrowSpawner : MonoBehaviour
 {
     // Prefab for the arrow
-    public GameObject arrowController;
+    [SerializeField] private GameObject arrowController;
 
     // Flag to control arrow spawning
-    public static bool canSpawnArrow = true;
+    private static bool canSpawnArrow = true;
 
     // Singleton instance
     public static ArrowSpawner Instance { get; private set; }
 
     // Reference to your GameManager
-    public GameManager gameManager;
+    [SerializeField] private GameManager gameManager;
 
-    void Start()
+    private void Start()
     {
         Instance = this; // Set the instance reference
+
+        // Add null check for GameManager
+        if (gameManager == null)
+        {
+            Debug.LogError("GameManager not assigned to ArrowSpawner in the Inspector.");
+        }
     }
 
-    void Update()
+    private void Update()
     {
         if (ShouldSpawnArrow() && canSpawnArrow)
         {
@@ -33,20 +39,21 @@ public class ArrowSpawner : MonoBehaviour
         return Input.GetMouseButtonDown(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began);
     }
 
-    IEnumerator SpawnArrowWithDelay()
-{
-    if (arrowController != null)
+    private IEnumerator SpawnArrowWithDelay()
     {
-        GameObject newArrow = Instantiate(arrowController, transform.position, transform.rotation);
-        canSpawnArrow = false;
-        yield return new WaitForSeconds(0.8f);
-        canSpawnArrow = true;
+        // Add null check for arrowController
+        if (arrowController != null)
+        {
+            GameObject newArrow = Instantiate(arrowController, transform.position, transform.rotation);
+            canSpawnArrow = false;
+            yield return new WaitForSeconds(0.8f);
+            canSpawnArrow = true;
+        }
+        else
+        {
+            Debug.LogError("ArrowController is null. Assign a prefab to it in the Inspector.");
+        }
     }
-    else
-    {
-        Debug.LogError("ArrowController is null. Assign a prefab to it in the Inspector.");
-    }
-}
 
     // Method to auto-release an arrow
     public void AutoReleaseArrow()
