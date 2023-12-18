@@ -32,8 +32,14 @@ public class SceneTransition : MonoBehaviour
     {
         // Trigger any transition animations or effects here
 
+        // Wait for the transitionTime before unloading the current scene
+        yield return new WaitForSeconds(transitionTime);
+
+        // Get the active scene index before unloading
+        int activeSceneIndex = SceneManager.GetActiveScene().buildIndex;
+
         // Unload the current scene asynchronously
-        AsyncOperation unloadOperation = SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().buildIndex);
+        AsyncOperation unloadOperation = SceneManager.UnloadSceneAsync(activeSceneIndex);
 
         // Wait until the scene is unloaded
         while (unloadOperation != null && !unloadOperation.isDone)

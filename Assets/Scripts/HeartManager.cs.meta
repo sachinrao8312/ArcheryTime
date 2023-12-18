@@ -3,7 +3,10 @@ guid: a2be1501b0ba85840ba2e026f6382308
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - fullHeartSprite: {fileID: -1174030583, guid: 4c50b3760c251df4d9064c08700f7344, type: 3}
+  - emptyHeartSprite: {fileID: -850481044, guid: 4c50b3760c251df4d9064c08700f7344, type: 3}
+  - remainingTimeText: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

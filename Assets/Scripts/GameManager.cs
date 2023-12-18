@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     public int noNewArrowfromSideScore;
     // Initial Arrow Count
     public int arrowCount = 7;
+    public int maxArrowCount = 20;
 
     // To enable and disable gameObject during GameOver
     public GameObject gameOverScreen;
@@ -30,8 +31,13 @@ public class GameManager : MonoBehaviour
     // Key to store and retrieve HighScore
     private string highScoreKey = "HighScore";
 
+    // Singleton instance
+    public static GameManager Instance { get; private set; }
+
+
     void Start()
     {
+        Instance = this; // Set the instance reference
         noNewArrowfromSideScore = Random.Range(40, 60);
         HitBoard = GameObject.FindGameObjectWithTag("Target");
 
@@ -133,12 +139,6 @@ public class GameManager : MonoBehaviour
         UpdateUI();
     }
 
-    public void AddNewArrow(int arrow)
-    {
-        arrowCount += arrow + 1;
-        UpdateUI();
-    }
-
     public void RestartNewGame()
     {
         SceneManager.LoadScene("GameScene");
@@ -147,15 +147,42 @@ public class GameManager : MonoBehaviour
     // Checks for valid no of arrows
     public void CheckArrowCount(int arrowCount)
     {
+
         if (arrowCount <= 0)
         {
             arrowCount = 0; // Ensure arrow count doesn't go negative
-            gameOverScreen.SetActive(true);
-            HitBoard.SetActive(false);
-            arrow.SetActive(false);
-            topBarUI.SetActive(false);
-            HighScoreText.enabled = true;
+            GameOver();
             UpdateUI(); // Update UI to show 0 arrows
         }
+        else if (arrowCount > maxArrowCount)
+        {
+            arrowCount = maxArrowCount; // Ensure arrow count doesn't exceed the maximum
+            Debug.Log("Arrow count exceeds the maximum. Arrows won't be added.");
+        }
+        UpdateUI();
     }
+
+    public void AddNewArrow(int arrow)
+    {
+        // Ensure arrow count doesn't exceed the maximum (10)
+        if (arrowCount + arrow <= maxArrowCount)
+        {
+            arrowCount += arrow;
+            UpdateUI();
+        }
+        else
+        {
+            Debug.Log("Cannot add more arrows. Arrow count is at the maximum.");
+        }
+    }
+
+    public void GameOver()
+    {
+        gameOverScreen.SetActive(true);
+        HitBoard.SetActive(false);
+        arrow.SetActive(false);
+        topBarUI.SetActive(false);
+        HighScoreText.enabled = true;
+    }
+
 }

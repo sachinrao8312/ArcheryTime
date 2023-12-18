@@ -13,37 +13,75 @@ public class HeartManager : MonoBehaviour
 
     public float timerDuration = 15f; // 15 seconds for testing purposes
     private float timer;
+    private int currentHearts; // Add this line to declare the variable
 
-    private void Start()
+    public void Start()
     {
+        // Initialize currentHearts to some initial value
+        currentHearts = 5; // Change this value based on your requirements
         ResetTimer();
         UpdateUI();
     }
 
-    private void Update()
+    public void Update()
     {
         UpdateTimer();
         UpdateUI();
     }
 
-    private void UpdateTimer()
+    public void UpdateTimer()
     {
         if ((timer -= Time.deltaTime) <= 0)
         {
-            // Timer has reached zero, switch heart sprite from left to right and reset the timer
-            SwitchHeartSpriteSequentially();
+            // Timer has reached zero, switch heart sprite from full to empty and reset the timer
+            SwitchHeartSprite();
             ResetTimer();
         }
     }
 
-    private void ResetTimer() => timer = timerDuration;
-
-    private void UpdateUI()
+    public void SwitchHeartSprite()
     {
-        UpdateRemainingTimeUI();
+        // Find the first full heart from left to right and switch its sprite to empty
+        for (int i = 0; i < heartImages.Length; i++)
+        {
+            if (heartImages[i].sprite == fullHeartSprite)
+            {
+                SetHeartSprite(heartImages[i], false);
+                break; // Stop after changing the first full heart
+            }
+        }
     }
 
-    private void UpdateRemainingTimeUI()
+    public void ResetTimer() => timer = timerDuration;
+
+    public void UpdateUI()
+    {
+        UpdateRemainingTimeUI();
+
+        // Check if the timer has reached zero to update hearts
+        if (timer <= 0)
+        {
+            SwitchHeartSprite();
+        }
+    }
+
+    public int GetCurrentHearts()
+    {
+        // Return the current number of hearts
+        return currentHearts;
+    }
+
+    public void UseHeart()
+    {
+        // Use a heart (decrement the count, handle regeneration logic, etc.)
+        if (currentHearts > 0)
+        {
+            currentHearts--;
+            // Optionally, trigger regeneration logic or update UI
+        }
+    }
+
+    public void UpdateRemainingTimeUI()
     {
         TimeSpan remainingTime = TimeSpan.FromSeconds(timer);
 
@@ -51,18 +89,5 @@ public class HeartManager : MonoBehaviour
         remainingTimeText.text = $"Next heart in: {remainingTime:mm\\:ss}";
     }
 
-    private void SwitchHeartSpriteSequentially()
-    {
-        // Find the first empty heart from left to right and switch its sprite to full
-        for (int i = 0; i < heartImages.Length; i++)
-        {
-            if (heartImages[i].sprite == emptyHeartSprite)
-            {
-                SetHeartSprite(heartImages[i], true);
-                break; // Stop after changing the first empty heart
-            }
-        }
-    }
-
-    private void SetHeartSprite(Image heartImage, bool isFull) => heartImage.sprite = isFull ? fullHeartSprite : emptyHeartSprite;
+    public void SetHeartSprite(Image heartImage, bool isFull) => heartImage.sprite = isFull ? emptyHeartSprite : fullHeartSprite;
 }

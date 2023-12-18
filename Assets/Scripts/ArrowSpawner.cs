@@ -3,22 +3,21 @@ using UnityEngine;
 
 public class ArrowSpawner : MonoBehaviour
 {
-    // Prefab for the arrow
-    [SerializeField] private GameObject arrowController;
-
-    // Flag to control arrow spawning
+    [SerializeField] private GameObject arrowPrefab; // Renamed from arrowController for clarity
     private static bool canSpawnArrow = true;
 
     // Singleton instance
     public static ArrowSpawner Instance { get; private set; }
 
-    // Reference to your GameManager
     [SerializeField] private GameManager gameManager;
+
+    private void Awake()
+    {
+        Instance = this; // Set the instance reference in Awake to ensure it's set before Start methods
+    }
 
     private void Start()
     {
-        Instance = this; // Set the instance reference
-
         // Add null check for GameManager
         if (gameManager == null)
         {
@@ -36,22 +35,24 @@ public class ArrowSpawner : MonoBehaviour
 
     private bool ShouldSpawnArrow()
     {
-        return Input.GetMouseButtonDown(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began);
+        return (Input.GetMouseButtonDown(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began))
+            && GameManager.Instance.arrowCount < GameManager.Instance.maxArrowCount;
     }
+
 
     private IEnumerator SpawnArrowWithDelay()
     {
-        // Add null check for arrowController
-        if (arrowController != null)
+        // Add null check for arrowPrefab
+        if (arrowPrefab != null)
         {
-            GameObject newArrow = Instantiate(arrowController, transform.position, transform.rotation);
+            GameObject newArrow = Instantiate(arrowPrefab, transform.position, transform.rotation);
             canSpawnArrow = false;
             yield return new WaitForSeconds(0.8f);
             canSpawnArrow = true;
         }
         else
         {
-            Debug.LogError("ArrowController is null. Assign a prefab to it in the Inspector.");
+            Debug.LogError("ArrowPrefab is null. Assign a prefab to it in the Inspector.");
         }
     }
 
