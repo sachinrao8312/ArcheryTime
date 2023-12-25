@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public PlayFabManager playfab;
     // Text Shown in the UI
     public TMP_Text scoreText;
     public TMP_Text arrowCountText;
@@ -183,6 +184,7 @@ public class GameManager : MonoBehaviour
         arrow.SetActive(false);
         topBarUI.SetActive(false);
         HighScoreText.enabled = true;
+        playfab.SendLeaderboard(totalScore);
     }
 
 }

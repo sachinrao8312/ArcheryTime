@@ -4,9 +4,10 @@ MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - fullHeartSprite: {fileID: -1174030583, guid: 4c50b3760c251df4d9064c08700f7344, type: 3}
-  - emptyHeartSprite: {fileID: -850481044, guid: 4c50b3760c251df4d9064c08700f7344, type: 3}
+  - fullHeartSprite: {instanceID: 0}
+  - emptyHeartSprite: {instanceID: 0}
   - remainingTimeText: {instanceID: 0}
+  - noOfHeartsText: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

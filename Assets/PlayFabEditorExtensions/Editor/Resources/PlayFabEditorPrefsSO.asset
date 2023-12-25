@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d0199c11aa6f514784c5c69cd8378d8, type: 3}
+  m_Script: {fileID: 0}
   m_Name: PlayFabEditorPrefsSO
-  m_EditorClassIdentifier: 
-  DevAccountEmail: biz.sachinrao@gmail.com
-  DevAccountToken: 7x87yejdry7ahrs7ypf7f9uwrkiek6keqdfp8j9pgunjcqcu6iuqgphjquq1x4ycadwjdg6rbxi5133yrx9xndmanmmfbyfpz11ximcahots5d3pxc1y7onbbjtut5ji1zczexkrjgbu37g4uk1bkmnp1mc8yqzhc1cdqi9n4hd77h6qurmszhfhn6bzyup7oeia9ni5
+  m_EditorClassIdentifier: PlayFabEditorExtensions:PlayFab.PfEditor:PlayFabEditorPrefsSO
+  DevAccountEmail: 
+  DevAccountToken: 
   SelectedStudio: 
   SdkPath: 
   EdExPath: 

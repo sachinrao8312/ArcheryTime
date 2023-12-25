@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 public class SceneTransition : MonoBehaviour
 {
     public string nextSceneName; // Name of the next scene
-    public float transitionTime = 1.0f; // Duration of the transition
+    public float transitionTime ;// Duration of the transition
 
     private bool isTransitioning = false; // Flag to prevent multiple scene loads
 
@@ -38,7 +38,7 @@ public class SceneTransition : MonoBehaviour
         // Get the active scene index before unloading
         int activeSceneIndex = SceneManager.GetActiveScene().buildIndex;
 
-        // Unload the current scene asynchronously
+        // // Unload the current scene asynchronously
         AsyncOperation unloadOperation = SceneManager.UnloadSceneAsync(activeSceneIndex);
 
         // Wait until the scene is unloaded
@@ -49,7 +49,7 @@ public class SceneTransition : MonoBehaviour
 
         // Optionally, destroy any additional GameObjects or assets from the previous scene
         // For example, you can destroy the GameObject that has this script attached to it
-        Destroy(gameObject);
+        // Destroy(gameObject);
 
         // Load the next scene
         SceneManager.LoadScene(nextSceneName);
