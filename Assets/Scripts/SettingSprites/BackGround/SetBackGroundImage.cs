@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class SetPlayerSprite : MonoBehaviour
+using UnityEngine.UI;
+public class SetBackGroundImage : MonoBehaviour
 {
     public CharacterDatabase characterDatabase;
-    public SpriteRenderer spriteRenderer;
+    public Image spriteRenderer;
 
     public string CurrentCharacterNameKey;
     private int currentCharacterIndex = 0;

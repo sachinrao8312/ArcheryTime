@@ -266,6 +266,7 @@ MonoBehaviour:
   destroyAtY: 10
   hitBoard: {fileID: 0}
   capsuleCollider2d: {fileID: 7487259297696489342}
+  spriteRenderer: {fileID: 0}
 --- !u!114 &4115442514681209041
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -280,3 +281,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterDatabase: {fileID: 11400000, guid: 0e65515c7f018a646a85026bed8d2333, type: 2}
   spriteRenderer: {fileID: 4927629932494884025}
+  CurrentCharacterNameKey: Arrow

@@ -9,6 +9,7 @@ public class ArrowController : MonoBehaviour
     [SerializeField] private float destroyAtY = 10f;
     [SerializeField] private Transform hitBoard;
     [SerializeField] private CapsuleCollider2D capsuleCollider2d;
+    [SerializeField] private SpriteRenderer spriteRenderer;
 
     private bool isAttached = false;
 
@@ -47,7 +48,9 @@ public class ArrowController : MonoBehaviour
 
     void InitializeComponents()
     {
+        arrowRigidbody = GetComponent<Rigidbody2D>();
         capsuleCollider2d = GetComponent<CapsuleCollider2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         gameManager = GameObject.FindGameObjectWithTag("GameManager")?.GetComponent<GameManager>();
         hitBoard = GameObject.FindGameObjectWithTag("Target")?.transform;
     }
@@ -92,10 +95,10 @@ public class ArrowController : MonoBehaviour
 
     void HandleCollision(int score)
     {
-        if (capsuleCollider2d != null)
+        if (capsuleCollider2d != null && spriteRenderer != null)
         {
-            // Arrow has collided with the board, attach it and destroy after some time
-            Destroy(capsuleCollider2d);
+            // Change the size of the capsule collider and sprite
+            capsuleCollider2d.size = new Vector2(spriteRenderer.bounds.size.x, spriteRenderer.bounds.size.y);
             AttachToBoard();
             gameManager?.UpdateScore(score);
             Destroy(gameObject, destroyAfterTime);

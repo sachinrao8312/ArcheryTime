@@ -7,8 +7,6 @@ using UnityEngine.UI;
 
 public class PlayFabManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-
     public GameObject rowDataPrefab;
     public Transform rowDataParent;
 
@@ -26,9 +24,10 @@ public class PlayFabManager : MonoBehaviour
         };
         PlayFabClientAPI.LoginWithCustomID(request, OnSuccess, OnError);
     }
+
     void OnSuccess(LoginResult result)
     {
-        Debug.Log("Sucessfull Login/ Account Created!");
+        Debug.Log("Successful Login/Account Created!");
     }
 
     void OnError(PlayFabError error)
@@ -55,7 +54,7 @@ public class PlayFabManager : MonoBehaviour
 
     void OnLeaderboardUpdate(UpdatePlayerStatisticsResult result)
     {
-        Debug.Log("Sucessfully Leaderboard Sent!");
+        Debug.Log("Successfully Leaderboard Sent!");
     }
 
     public void GetLeaderboard()
@@ -75,17 +74,23 @@ public class PlayFabManager : MonoBehaviour
         {
             Destroy(item.gameObject);
         }
+
         foreach (var item in result.Leaderboard)
         {
-
             GameObject newPlayerData = Instantiate(rowDataPrefab, rowDataParent);
-
             Text[] texts = newPlayerData.GetComponentsInChildren<Text>();
-            texts[0].text = item.Position.ToString();
-            texts[1].text = item.PlayFabId;
-            texts[2].text = item.DisplayName.ToString();
 
-            // Debug.Log("position :" + item.Position + " Id: " + item.PlayFabId + " Name " + item.DisplayName + " : " + item.StatValue);
+            // Check if texts array has enough elements
+            if (texts.Length >= 3)
+            {
+                texts[0].text = item.Position.ToString();
+                texts[1].text = item.PlayFabId;
+                texts[2].text = item.DisplayName.ToString();
+            }
+            else
+            {
+                Debug.LogError("Error: Texts array does not have enough elements!");
+            }
         }
     }
 }
