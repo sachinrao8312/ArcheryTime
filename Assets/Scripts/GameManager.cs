@@ -2,179 +2,145 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-
 public class GameManager : MonoBehaviour
 {
-    public PlayFabManager playfab;
-    // Text Shown in the UI
-    public TMP_Text scoreText;
-    public TMP_Text arrowCountText;
-    public TMP_Text HighScoreText;
-    public TMP_Text currentScoreText;
-    public TMP_Text timerText;
+    public TMP_Text scoreText, arrowCountText, HighScoreText, currentScoreText;
 
-    // Total Score while game and arrowCounts
-    public int totalScore = 0;
-    public int HighestScore = 0;
-    public int noNewArrowfromSideScore;
-    // Initial Arrow Count
-    public int arrowCount = 7;
-    public int maxArrowCount = 20;
+    // timerText;
+    public int totalScore = 0, HighestScore = 0, noNewArrowfromSideScore, arrowCount = 10, maxArrowCount = 10;
+    public GameObject gameOverScreen, HitBoard, arrow, topBarUI, progessBarTimer;
 
-    // To enable and disable gameObject during GameOver
-    public GameObject gameOverScreen;
-    public GameObject HitBoard;
-    public GameObject arrow;
-    public GameObject topBarUI;
-    // Timer for the arrow
-    public float arrowTimer = 3f;
-
-    // Key to store and retrieve HighScore
     private string highScoreKey = "HighScore";
+    [SerializeField]
+    private float arrowTimer = 3f;
 
-    // Singleton instance
     public static GameManager Instance { get; private set; }
 
+    public loadInterstitial interstitialLoader;
+    public loadRewarded rewardedLoader;
+    public initializeAds adsInitializer;
 
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
     void Start()
     {
-        Instance = this; // Set the instance reference
+        Instance = this;
+        progessBarTimer.SetActive(false);
+        gameOverScreen.SetActive(false);
         noNewArrowfromSideScore = Random.Range(40, 60);
         HitBoard = GameObject.FindGameObjectWithTag("Target");
-
-        // Initialize the timer
-        arrowTimer = 3f;
-
-        // Initialize the score text when the game starts
         UpdateUI();
-
-        // Load the highestScore from PlayerPrefs 
         LoadHighestScore();
+
+        initializeAds.OnAdsInitialized += OnAdsInitialized;
+    }
+
+    void OnAdsInitialized()
+    {
+        // Ads are initialized, now load the initial ads
+        interstitialLoader.androidAdUnitId = "YOUR_ANDROID_INTERSTITIAL_AD_UNIT_ID";
+        interstitialLoader.iosAdUnitId = "YOUR_IOS_INTERSTITIAL_AD_UNIT_ID";
+
+
+        rewardedLoader.androidAdUnitId = "YOUR_ANDROID_REWARDED_AD_UNIT_ID";
+        rewardedLoader.iosAdUnitId = "YOUR_IOS_REWARDED_AD_UNIT_ID";
+
+        // Load the rewarded ad before attempting to show it
+        rewardedLoader.LoadAd();
+
     }
 
     void Update()
     {
-        // Update the timer only if the game is not over
-        if (!gameOverScreen.activeSelf)
+        if (!gameOverScreen.activeSelf && totalScore >= 1000)
         {
+            progessBarTimer.SetActive(true);
             arrowTimer -= Time.deltaTime;
-
-            // Automatically shoot arrow when timer reaches zero
             if (arrowTimer <= 1)
             {
                 ArrowSpawner.Instance.AutoReleaseArrow();
-                arrowTimer = 3f; // Reset the timer
+                arrowTimer = 3f;
             }
-
             UpdateUI();
         }
     }
 
     void UpdateUI()
     {
-        // Update the score displayed in the UI
-        scoreText.text = "Score: " + totalScore.ToString();
-        currentScoreText.text = "Current " + scoreText.text;
-        arrowCountText.text = "Arrows: " + arrowCount.ToString();
-        HighScoreText.text = "High Score: " + GetHighestScore();
-        // Round the timer value
-        timerText.text = Mathf.Round(arrowTimer).ToString();
+        scoreText.text = $"Score: {totalScore}";
+        currentScoreText.text = $"Current {scoreText.text}";
+        arrowCountText.text = $"Arrows: {arrowCount}";
+        HighScoreText.text = $"High Score: {GetHighestScore()}";
+        // timerText.text = Mathf.Round(arrowTimer).ToString();
     }
 
     public void UpdateScore(int score)
     {
-        // Update the score
         totalScore += score;
 
-        // Updates the HighScore If currentTotalScore is greater than HighScore Saved
         if (totalScore > GetHighestScore())
-        {
-            // Save the highestScore
             SaveHighScore();
-        }
 
-        // New Arrows Based On Score
         if (totalScore <= noNewArrowfromSideScore)
         {
             AddNewArrow(1);
         }
-        else
+        else if (totalScore > noNewArrowfromSideScore)
         {
-            if (score == 3)
-            {
-                AddNewArrow(2);
-            }
+            AddNewArrow(2);
         }
 
-        // Checks If arrow is Sufficient to Continue the game
-        CheckArrowCount(arrowCount);
-
-        // Update the UI to reflect the new score
+        CheckArrowCount();
         UpdateUI();
     }
 
-    // Returns Highest Score
-    int GetHighestScore()
-    {
-        return PlayerPrefs.GetInt(highScoreKey, 0);
-    }
+    int GetHighestScore() => PlayerPrefs.GetInt(highScoreKey, 0);
 
     void SaveHighScore()
     {
-        // Setting key-value pair
         PlayerPrefs.SetInt(highScoreKey, totalScore);
         PlayerPrefs.Save();
     }
 
-    // Load HighScore from memory
-    void LoadHighestScore()
-    {
-        HighestScore = GetHighestScore();
-    }
+    void LoadHighestScore() => HighestScore = GetHighestScore();
 
-    // Reduces arrowCount if used
-    public void UseArrow()
+    public void UseArrow(int arrow = 1)
     {
-        --arrowCount;
-        CheckArrowCount(arrowCount);
+        arrowCount -= arrow;
+        CheckArrowCount();
         UpdateUI();
     }
 
-    public void RestartNewGame()
+    void CheckArrowCount()
     {
-        SceneManager.LoadScene("GameScene");
-    }
-
-    // Checks for valid no of arrows
-    public void CheckArrowCount(int arrowCount)
-    {
-
+        arrowCount = Mathf.Clamp(arrowCount, 0, maxArrowCount);
+        UpdateUI();
         if (arrowCount <= 0)
-        {
-            arrowCount = 0; // Ensure arrow count doesn't go negative
             GameOver();
-            UpdateUI(); // Update UI to show 0 arrows
-        }
         else if (arrowCount > maxArrowCount)
-        {
-            arrowCount = maxArrowCount; // Ensure arrow count doesn't exceed the maximum
             Debug.Log("Arrow count exceeds the maximum. Arrows won't be added.");
-        }
-        UpdateUI();
     }
 
     public void AddNewArrow(int arrow)
     {
-        // Ensure arrow count doesn't exceed the maximum (10)
         if (arrowCount + arrow <= maxArrowCount)
         {
             arrowCount += arrow;
+            Debug.Log("Arrow added.:  " + arrow);
             UpdateUI();
         }
         else
-        {
             Debug.Log("Cannot add more arrows. Arrow count is at the maximum.");
-        }
     }
 
     public void GameOver()
@@ -184,7 +150,27 @@ public class GameManager : MonoBehaviour
         arrow.SetActive(false);
         topBarUI.SetActive(false);
         HighScoreText.enabled = true;
-        playfab.SendLeaderboard(totalScore);
+        interstitialLoader.LoadAd();
     }
 
+    private void OnDestroy()
+    {
+        Instance = null;
+        initializeAds.OnAdsInitialized -= OnAdsInitialized;
+    }
+
+    public void DoubleScore()
+    {
+        rewardedLoader.ShowAd(OnRewardedAdSuccess);
+    }
+
+
+    public void OnRewardedAdSuccess()
+    {
+        // Scene currentScene = SceneManager.GetActiveScene();
+        // SceneManager.LoadScene(currentScene.name);
+        totalScore *= 2;
+        UpdateUI();
+        Debug.Log("Rewarded ad success. Total Score :  " + totalScore);
+    }
 }

@@ -1,57 +1,94 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using System.Threading.Tasks;
 
-public class SceneTransition : MonoBehaviour
+public class SceneLoader : MonoBehaviour
 {
-    public string nextSceneName; // Name of the next scene
-    public float transitionTime ;// Duration of the transition
+    [SerializeField] private Canvas loadingCanvas; // Assign loading canvas object
+    [SerializeField] private Slider loadingSlider; // Assign Slider UI element
 
-    private bool isTransitioning = false; // Flag to prevent multiple scene loads
-
-    private void Start()
+    void Awake()
     {
-        // You can also register the button click event programmatically here
-    }
-
-    // Method to be called when the button is clicked (set in the Unity Inspector)
-    public void OnButtonClick()
-    {
-        // Check if a transition is already in progress
-        if (!isTransitioning)
+        // Disable loading canvas on awake
+        if (loadingCanvas != null)
         {
-            // Set the flag to true to prevent multiple scene loads
-            isTransitioning = true;
-
-            // Use a coroutine for a smooth transition
-            StartCoroutine(LoadScene());
+            loadingCanvas.gameObject.SetActive(false);
         }
     }
 
-    IEnumerator LoadScene()
+    public async void LoadSceneWithSlider(string sceneName)
     {
-        // Trigger any transition animations or effects here
-
-        // Wait for the transitionTime before unloading the current scene
-        yield return new WaitForSeconds(transitionTime);
-
-        // Get the active scene index before unloading
-        int activeSceneIndex = SceneManager.GetActiveScene().buildIndex;
-
-        // // Unload the current scene asynchronously
-        AsyncOperation unloadOperation = SceneManager.UnloadSceneAsync(activeSceneIndex);
-
-        // Wait until the scene is unloaded
-        while (unloadOperation != null && !unloadOperation.isDone)
+        
+        if (string.IsNullOrEmpty(sceneName))
         {
-            yield return null;
+            Debug.LogError("Scene name is null or empty. Please provide a valid scene name.");
+            return;
         }
 
-        // Optionally, destroy any additional GameObjects or assets from the previous scene
-        // For example, you can destroy the GameObject that has this script attached to it
-        // Destroy(gameObject);
+        // Start loading scene asynchronously
+        var scene = SceneManager.LoadSceneAsync(sceneName);
+        if (scene == null)
+        {
+            Debug.LogError("Failed to load the scene asynchronously.");
+            return;
+        }
+        scene.allowSceneActivation = false;
 
-        // Load the next scene
-        SceneManager.LoadScene(nextSceneName);
+        // Activate loading canvas if it's not null
+        if (loadingCanvas != null)
+        {
+            loadingCanvas.gameObject.SetActive(true);
+        }
+        else
+        {
+            Debug.LogError("Loading canvas is null. Please assign a valid canvas.");
+            return;
+        }
+
+        do
+        {
+            await Task.Delay(100);
+            if (loadingSlider != null)
+            {
+                UpdateSliderValue(scene.progress);
+            }
+            else
+            {
+                Debug.LogError("Loading slider is null. Please assign a valid slider.");
+                return;
+            }
+        } while (scene.progress < 0.9f);
+
+        scene.allowSceneActivation = true;
+
+        // Deactivate loading canvas if it's not null
+        if (loadingCanvas != null)
+        {
+            loadingCanvas.gameObject.SetActive(false);
+        }
+        else
+        {
+            Debug.LogError("Loading canvas is null. Please assign a valid canvas.");
+        }
     }
+
+    private void UpdateSliderValue(float value)
+    {
+        // Ensure the value is within the valid range of the slider (0 to 1)
+        value = Mathf.Clamp01(value);
+
+        // Update the slider value if the loadingSlider is not null
+        if (loadingSlider != null)
+        {
+            loadingSlider.value = value;
+        }
+        else
+        {
+            Debug.LogError("Loading slider is null. Please assign a valid slider.");
+        }
+    }
+
+  
 }

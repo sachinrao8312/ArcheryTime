@@ -5,7 +5,7 @@ public class BoardMoveScript : MonoBehaviour
     // Fields made private and serialized for better encapsulation and Unity Inspector visibility
     [SerializeField] private Rigidbody2D board;
     [SerializeField] private GameManager gameManager;
-
+    [SerializeField] private BoxCollider2D boxCollider2d;
     [Header("Movement Settings")]
     [SerializeField] private float maxBoardSpeed = 5f;
     [SerializeField] private float initialBoardSpeed = 2f;

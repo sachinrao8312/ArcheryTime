@@ -344,7 +344,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 220.4377}
+  m_SizeDelta: {x: 0, y: 325.115}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &37363662
 MonoBehaviour:
@@ -450,7 +450,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 216.4865}
+  m_SizeDelta: {x: 0, y: 381.16}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &137446280
 MonoBehaviour:
@@ -475,8 +475,8 @@ MonoBehaviour:
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
   m_ChildControlHeight: 0
-  m_ChildScaleWidth: 0
-  m_ChildScaleHeight: 0
+  m_ChildScaleWidth: 1
+  m_ChildScaleHeight: 1
   m_ReverseArrangement: 0
 --- !u!114 &137446281
 MonoBehaviour:
@@ -1856,8 +1856,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 748, y: 1075}
-  m_SizeDelta: {x: 1886.2485, y: 2419.9453}
+  m_AnchoredPosition: {x: 1031, y: 1921.8}
+  m_SizeDelta: {x: 2702.733, y: 4105.253}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &620730406
 MonoBehaviour:
@@ -2442,10 +2442,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -3713,7 +3713,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 0}
+  m_TargetGraphic: {fileID: 1281365575}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -5192,8 +5192,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a515889473d6ba4aa2a85787ca78808, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextSceneName: GameScene
-  transitionTime: 1
+  loadingCanvas: {fileID: 0}
+  loadingSlider: {fileID: 0}
 --- !u!1 &1776551598
 GameObject:
   m_ObjectHideFlags: 0

@@ -15,7 +15,8 @@ GameObject:
   - component: {fileID: 3366724085724943465}
   - component: {fileID: 6261782674598893835}
   - component: {fileID: 4115442514681209041}
-  m_Layer: 0
+  - component: {fileID: 165778002014680171}
+  m_Layer: 6
   m_Name: Arrow
   m_TagString: Arrow
   m_Icon: {fileID: 0}
@@ -69,8 +70,8 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.06}
-  m_Size: {x: 6.97, y: 0.59}
+  m_Offset: {x: 0.66, y: 0.06}
+  m_Size: {x: 1.84, y: 0.26}
   m_Direction: 1
 --- !u!212 &4927629932494884025
 SpriteRenderer:
@@ -92,7 +93,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: f7cfb8b82b7044802b656cb356f2a075, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -110,9 +111,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 456875869
+  m_SortingLayer: 4
+  m_SortingOrder: 5
   m_Sprite: {fileID: 994652863, guid: c9c99f6b22001c2458774bbf77dc68d3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -260,13 +261,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 0}
+  spriteRenderer: {fileID: 0}
   arrowSpeed: 14.7
   destroyAfterTime: 2
-  arrowRigidbody: {fileID: 8757975771604676528}
   destroyAtY: 10
   hitBoard: {fileID: 0}
+  arrowRigidbody: {fileID: 8757975771604676528}
   capsuleCollider2d: {fileID: 7487259297696489342}
-  spriteRenderer: {fileID: 0}
 --- !u!114 &4115442514681209041
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -282,3 +283,18 @@ MonoBehaviour:
   characterDatabase: {fileID: 11400000, guid: 0e65515c7f018a646a85026bed8d2333, type: 2}
   spriteRenderer: {fileID: 4927629932494884025}
   CurrentCharacterNameKey: Arrow
+--- !u!114 &165778002014680171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4186352815237654060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86a72247d5aa84112962198463a3c864, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: {r: 0, g: 0, b: 0, a: 1}
+  _spriteRenderer: {fileID: 4927629932494884025}
+  _outlineSize: 5

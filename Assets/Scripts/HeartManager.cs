@@ -20,8 +20,8 @@ public class HeartManager : MonoBehaviour
 
     void Start()
     {
+        timerDuration  *= 60; 
         currentHearts = 5; // Set the initial number of hearts
-        firstFullHeartIndex = FindFirstFullHeartIndex();
         ResetTimer();
         UpdateUI();
     }
@@ -43,32 +43,29 @@ public class HeartManager : MonoBehaviour
 
     void SwitchHeartSprite()
     {
-        int fullHeartIndex = FindFirstFullHeartIndex();
-
-        if (fullHeartIndex != -1)
-        {
-            SetHeartSprite(heartImages[fullHeartIndex], false);
-        }
-
-        if (firstFullHeartIndex != -1)
+        if (firstFullHeartIndex > -1) // Use cached index if valid
         {
             SetHeartSprite(heartImages[firstFullHeartIndex], true);
         }
 
-        firstFullHeartIndex = fullHeartIndex;
+        int nextEmptyIndex = FindNextEmptyHeartIndex(firstFullHeartIndex + 1); // Optimized search starting from next position
+        if (nextEmptyIndex > -1)
+        {
+            SetHeartSprite(heartImages[nextEmptyIndex], false);
+            firstFullHeartIndex = nextEmptyIndex; // Update cached index
+        }
     }
 
-    int FindFirstFullHeartIndex()
+    int FindNextEmptyHeartIndex(int start)
     {
-        for (int i = 0; i < heartImages.Length; i++)
+        for (int i = start; i < heartImages.Length; i++)
         {
-            if (heartImages[i].sprite == fullHeartSprite)
+            if (heartImages[i].sprite == emptyHeartSprite)
             {
                 return i;
             }
         }
-
-        return -1;
+        return -1; // No empty hearts found
     }
 
     void ResetTimer() => timer = timerDuration;
@@ -76,6 +73,7 @@ public class HeartManager : MonoBehaviour
     void UpdateUI()
     {
         UpdateRemainingTimeUI();
+        noOfHeartsText.text = $"{currentHearts}";
     }
 
     int GetCurrentHearts() => currentHearts;
@@ -85,6 +83,7 @@ public class HeartManager : MonoBehaviour
         if (currentHearts > 0)
         {
             currentHearts--;
+            UpdateUI(); // Update heart UI after using a heart
         }
     }
 
@@ -92,8 +91,7 @@ public class HeartManager : MonoBehaviour
     {
         TimeSpan remainingTime = TimeSpan.FromSeconds(timer);
         remainingTimeText.text = $"Next heart in: {remainingTime:mm\\:ss}";
-        noOfHeartsText.text = $"{currentHearts}";
     }
 
-    void SetHeartSprite(Image heartImage, bool isFull) => heartImage.sprite = isFull ? emptyHeartSprite : fullHeartSprite;
+    void SetHeartSprite(Image heartImage, bool isFull) => heartImage.sprite = isFull ? fullHeartSprite : emptyHeartSprite;
 }

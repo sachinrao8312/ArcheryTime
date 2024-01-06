@@ -15,8 +15,8 @@ TagManager:
   - LevelMeter
   - Water
   - UI
-  - VFX
-  - 
+  - TOP
+  - PostProcessing
   - 
   - 
   - 
@@ -51,9 +51,6 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Characters
-    uniqueID: 456875869
-    locked: 0
   - name: Foreground
     uniqueID: 12416889
     locked: 0
@@ -62,4 +59,7 @@ TagManager:
     locked: 0
   - name: VFX
     uniqueID: 2611411177
+    locked: 0
+  - name: Characters
+    uniqueID: 456875869
     locked: 0

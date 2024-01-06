@@ -12,9 +12,9 @@ public class CharacterManager : MonoBehaviour
     public string CurrentCharacterNameKey;
     void Start()
     {
-        if (!PlayerPrefs.HasKey("CharacterIndex"))
+        if (!PlayerPrefs.HasKey(CurrentCharacterNameKey))
         {
-            PlayerPrefs.SetInt("CharacterIndex", 0);
+            PlayerPrefs.SetInt(CurrentCharacterNameKey, 0);
         }
         else
         {
@@ -63,12 +63,12 @@ public class CharacterManager : MonoBehaviour
 
     private void Save()
     {
-        PlayerPrefs.SetInt("CharacterIndex", currentCharacterIndex);
+        PlayerPrefs.SetInt(CurrentCharacterNameKey, currentCharacterIndex);
     }
 
     private void Load()
     {
-        currentCharacterIndex = PlayerPrefs.GetInt("CharacterIndex");
+        currentCharacterIndex = PlayerPrefs.GetInt(CurrentCharacterNameKey);
         UpdateCharacter(currentCharacterIndex);
     }
 }

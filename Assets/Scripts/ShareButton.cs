@@ -6,7 +6,12 @@ public class ShareButton : MonoBehaviour
 {
     private bool isFocus = false;
     private bool isProcessing = false;
+    public string telegramGroupLink = "https://t.me/archeryTime";
 
+    public void OpenTelegramGroupLink()
+    {
+        Application.OpenURL(telegramGroupLink);
+    }
     void OnApplicationFocus(bool focus)
     {
         isFocus = focus;
@@ -28,10 +33,10 @@ public class ShareButton : MonoBehaviour
 #if UNITY_ANDROID
     private IEnumerator ShareTextCoroutine()
     {
-        var shareSubject = "Check out My Game on the Play Store!"; // Subject text
-        var shareMessage = "I'm playing this awesome game called POP IT! 🎮\n\n" +
+        var shareSubject = "Check out this Awsome Game!"; 
+        var shareMessage = "I'm playing this awesome game called Archery Time! 🎮\n\n" +
                            "Get it now on the Google Play Store:\n" +
-                           "https://play.google.com/store/apps/details?id=com.yourcompany.yourgame"; // Your actual Play Store link
+                           "https://play.google.com/store/apps/details?id=ai.sach.archerytime"; 
 
         isProcessing = true;
 

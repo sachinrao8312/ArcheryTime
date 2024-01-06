@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class ArrowSpawner : MonoBehaviour
 {
-    [SerializeField] private GameObject arrowPrefab; // Renamed from arrowController for clarity
+    [SerializeField] private GameObject arrowPrefab;
+    [SerializeField] private float spawnDelayTime;
     private static bool canSpawnArrow = true;
 
     // Singleton instance
@@ -13,7 +14,7 @@ public class ArrowSpawner : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this; // Set the instance reference in Awake to ensure it's set before Start methods
+        Instance = this;
     }
 
     private void Start()
@@ -35,19 +36,15 @@ public class ArrowSpawner : MonoBehaviour
 
     private bool ShouldSpawnArrow()
     {
-        return (Input.GetMouseButtonDown(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began))
-            && GameManager.Instance.arrowCount < GameManager.Instance.maxArrowCount;
+        return ((Input.GetMouseButtonDown(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)));
     }
-
 
     private IEnumerator SpawnArrowWithDelay()
     {
-        // Add null check for arrowPrefab
         if (arrowPrefab != null)
         {
-            GameObject newArrow = Instantiate(arrowPrefab, transform.position, transform.rotation);
-            canSpawnArrow = false;
-            yield return new WaitForSeconds(0.8f);
+            SpawnArrow();
+            yield return new WaitForSeconds(spawnDelayTime);
             canSpawnArrow = true;
         }
         else
@@ -56,12 +53,21 @@ public class ArrowSpawner : MonoBehaviour
         }
     }
 
+    private void SpawnArrow()
+    {
+        GameObject newArrow = Instantiate(arrowPrefab, transform.position, transform.rotation);
+        canSpawnArrow = false;
+    }
+
     // Method to auto-release an arrow
     public void AutoReleaseArrow()
     {
-        if (canSpawnArrow)
-        {
-            StartCoroutine(SpawnArrowWithDelay());
-        }
+        StartCoroutine(SpawnArrowWithDelay());
+    }
+
+    // Reset the singleton instance
+    private void OnDestroy()
+    {
+        Instance = null;
     }
 }

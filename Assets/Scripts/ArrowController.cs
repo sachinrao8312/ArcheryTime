@@ -3,13 +3,13 @@ using UnityEngine;
 public class ArrowController : MonoBehaviour
 {
     [SerializeField] private GameManager gameManager;
+    [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private float arrowSpeed = 5f;
     [SerializeField] private float destroyAfterTime = 1f;
-    [SerializeField] private Rigidbody2D arrowRigidbody;
     [SerializeField] private float destroyAtY = 10f;
     [SerializeField] private Transform hitBoard;
+    [SerializeField] private Rigidbody2D arrowRigidbody;
     [SerializeField] private CapsuleCollider2D capsuleCollider2d;
-    [SerializeField] private SpriteRenderer spriteRenderer;
 
     private bool isAttached = false;
 
@@ -77,8 +77,8 @@ public class ArrowController : MonoBehaviour
         // Arrow has missed the board, destroy it
         Destroy(gameObject);
         if (gameManager != null)
-        {
-            gameManager.UseArrow();
+        {   
+                gameManager.UseArrow();
         }
     }
 
@@ -97,11 +97,20 @@ public class ArrowController : MonoBehaviour
     {
         if (capsuleCollider2d != null && spriteRenderer != null)
         {
-            // Change the size of the capsule collider and sprite
-            capsuleCollider2d.size = new Vector2(spriteRenderer.bounds.size.x, spriteRenderer.bounds.size.y);
+            capsuleCollider2d.enabled = false;
             AttachToBoard();
             gameManager?.UpdateScore(score);
             Destroy(gameObject, destroyAfterTime);
+        }
+    }
+
+    public void DestroyCollider()
+    {
+        if (capsuleCollider2d != null)
+        {
+            Destroy(capsuleCollider2d);
+            Debug.Log("Collider Destroyed");
+            // capsuleCollider2d.enabled = false;
         }
     }
 }

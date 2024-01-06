@@ -17,6 +17,7 @@ public class MoveBowScript : MonoBehaviour
 
     private float startTime;
 
+          
     private void Start()
     {
         InitializeComponents();
